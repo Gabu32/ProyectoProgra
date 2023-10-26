@@ -1,0 +1,10 @@
+Juan,clave123,Masculino,25,70.4,1.75
+Ana,contraseña45,Femenino,30,60.1,1.60
+Gabriel,pass,Masculino,19,80.6,1.75
+Carlos,miPass1234,Masculino,40,85.8,1.80
+Luisa,segura2022,Femenino,28,55.9,1.63
+María,abc456,Femenino,35,68.2,1.70
+Ignacio,esbirro,Masculino,5,90.5,1.40
+Pedro,clave789,Masculino,45,90.0,1.78
+Laura,pass123,Femenino,22,58.3,1.65
+Fernando,admin,Masculino,19,69,1.43

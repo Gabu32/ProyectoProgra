@@ -1,0 +1,3 @@
+Sentadillas,900,100,Beginner
+Lagartijas,700,15,Intermediate
+Burpees,1400,20,Expert
