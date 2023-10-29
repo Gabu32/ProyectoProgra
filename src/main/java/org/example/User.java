@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.io.*;
 import java.text.*;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
 public class User {
     private String name;
     private String password;
@@ -16,11 +19,15 @@ public class User {
     //private ArrayList<Training> trainings;
     private Scanner input = new Scanner(System.in);
     private ArrayList<User> usersList = new ArrayList<>();
-    public String file = "datos/datosUsuarios.txt";
+    public String ruta = "datos/datosUsuarios.csv";
 
     // Constructores
     public User(){
-        this.readData();
+        try {
+            this.readData();
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
     }
     public User(String name,String password,String gender,int age,double weight,double height){
         this.name = name;
@@ -110,21 +117,21 @@ public class User {
         }
     }
 
-    public void readData(){
+    public void readData() throws CsvValidationException{
+        File file = new File(this.ruta);
         try{
-            BufferedReader data = new BufferedReader(new FileReader(file));
+            FileReader inputfile = new FileReader(file);
+            CSVReader reader = new CSVReader(inputfile);
 
-            String line;
-            String[] fields = new String[6];
+            String[] fields;
 
-            while((line = data.readLine())!= null){
-                fields = line.split(",");
+            while((fields = reader.readNext()) != null){
                 usersList.add(new User(fields[0], fields[1], fields[2], Integer.parseInt(fields[3]), Double.parseDouble(fields[4]), Double.parseDouble(fields[5])));
             }
 
         }catch(FileNotFoundException ex){
-            System.out.println(ex);
-        }catch(IOException e){}
+            ex.printStackTrace();
+        }catch(IOException e){ e.printStackTrace(); }
     }
 
     //Metodos

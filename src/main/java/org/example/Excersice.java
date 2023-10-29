@@ -1,11 +1,11 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 
 public class Excersice {
     private String excerciseName;
@@ -14,10 +14,14 @@ public class Excersice {
     private String difficulty; //begginer, intermediate, expert
     private Scanner input = new Scanner(System.in);
     private ArrayList<Excersice> excercisesList = new ArrayList<>();
-    private String file = "datos/datosEjercicios.txt";
+    private String ruta = "datos/datosEjercicios.csv";
 
     public Excersice(){
-        this.readData();
+        try {
+            this.readData();
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
     }
     public Excersice(String excerciseName, int cal, int reps, String difficulty){
         this.excerciseName = excerciseName;
@@ -77,20 +81,20 @@ public class Excersice {
         }
     }
 
-    public void readData(){
+    public void readData() throws CsvValidationException{
+        File file = new File(this.ruta);
         try{
-            BufferedReader data = new BufferedReader(new FileReader(file));
+            FileReader inputfile = new FileReader(file);
+            CSVReader reader = new CSVReader(inputfile);
 
-            String line;
-            String[] fields = new String[4];
+            String[] fields;
 
-            while((line = data.readLine()) != null){
-                fields = line.split(",");
+            while((fields = reader.readNext()) != null){
                 excercisesList.add(new Excersice(fields[0], Integer.parseInt(fields[1]), Integer.parseInt(fields[2]), fields[3]));
             }
 
         }catch(FileNotFoundException ex){
             System.out.println(ex);
-        }catch(IOException e){}
+        }catch(IOException e){ e.printStackTrace(); }
     }
 }
