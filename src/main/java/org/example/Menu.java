@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Menu {
     private User users;
@@ -15,10 +16,21 @@ public class Menu {
         trainings = new Training();
     }
 
-    public int getUserChoice(){
-        System.out.print("Ingrese su opción: ");
-        int choice = input.nextInt();
-        System.out.println("\n");
+    public int getUserChoice(String mensaje){
+        boolean inputValid = false;
+        int choice = -1;
+
+        while (!inputValid) {
+            try {
+                System.out.print(mensaje);
+                choice = input.nextInt();
+                System.out.println("\n");
+                inputValid = true; // La entrada es válida, podemos salir del bucle
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada no válida. Por favor, ingrese un número válido.");
+                input.nextLine(); // Limpiamos el búfer del escáner para evitar un bucle infinito
+            }
+        }
         return choice;
     }
 
@@ -34,22 +46,22 @@ public class Menu {
         switch(choice){
             case 1:
                 userMenu();
-                userMenu(getUserChoice());
+                userMenu(getUserChoice("Ingrese su opción: "));
                 break;
 
             case 2:
                 trainerMenu();
-                trainerMenu(getUserChoice());
+                trainerMenu(getUserChoice("Ingrese su opción: "));
                 break;
 
             case 3:
                 excerciseMenu();
-                excerciseMenu(getUserChoice());
+                excerciseMenu(getUserChoice("Ingrese su opción: "));
                 break;
 
             case 4:
                 trainingMenu();
-                trainingMenu(getUserChoice());
+                trainingMenu(getUserChoice("Ingrese su opción: "));
                 break;
 
             case 0:
@@ -64,6 +76,7 @@ public class Menu {
     public void userMenu(){
         System.out.println("1. Agregar usuario");
         System.out.println("2. Mostrar lista usuarios");
+        System.out.println("3. Eliminar un usuario");
         System.out.println("0. Volver a menu principal\n");
     }
 
@@ -71,13 +84,17 @@ public class Menu {
         switch(choice){
             case 1:
                 users.addUser();
-                System.out.println("\n\n");
+                System.out.println("\n");
                 break;
 
             case 2:
                 users.printUsers();
-                System.out.println("\n\n");
+                System.out.println("\n");
                 break;
+
+            case 3:
+                users.deleteUser(getUserChoice("Ingrese ID usuario a eliminar: "));
+                System.out.println("\n");
 
             case 0:
                 return;
@@ -97,12 +114,12 @@ public class Menu {
         switch(choice){
             case 1:
                 trainers.addTrainer();
-                System.out.println("\n\n");
+                System.out.println("\n");
                 break;
 
             case 2:
                 trainers.printTrainers();
-                System.out.println("\n\n");
+                System.out.println("\n");
                 break;
 
             case 0:
@@ -123,12 +140,12 @@ public class Menu {
         switch(choice){
             case 1:
                 excersices.addExcercise();
-                System.out.println("\n\n");
+                System.out.println("\n");
                 break;
 
             case 2:
                 excersices.printExcercises();
-                System.out.println("\n\n");
+                System.out.println("\n");
                 break;
 
             case 0:
@@ -149,12 +166,12 @@ public class Menu {
         switch(choice){
             case 1:
                 trainings.addTraining();
-                System.out.println("\n\n");
+                System.out.println("\n");
                 break;
 
             case 2:
                 trainings.printTrainings();
-                System.out.println("\n\n");
+                System.out.println("\n");
                 break;
 
             case 0:

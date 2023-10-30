@@ -23,8 +23,8 @@ public class Trainer extends Person{
             throw new RuntimeException(e);
         }
     }
-    public Trainer(String name, String password, String gender, int age, double weight, double height, int ID, String specialty) {
-        super(name, password, gender, age, weight, height, ID);
+    public Trainer(String name, String password, String gender, int age, int ID, String specialty) {
+        super(name, password, gender, age, ID);
         this.specialty=specialty;
     }
 
@@ -45,19 +45,13 @@ public class Trainer extends Person{
         System.out.print("Introduzca su edad: ");
         int age = input.nextInt();
         input.nextLine();
-        System.out.print("Introduzca su peso (en kilogramos): ");
-        double weight = input.nextDouble();
-        input.nextLine();
-        System.out.print("Introduzca su estatura (en metros): ");
-        double height = input.nextDouble();
-        input.nextLine();
         System.out.print("Introduzca su especialidad: ");
         String specialty = input.nextLine();
 
         int ID = lastID + 1;
         lastID = ID;
 
-        Trainer newTrainer = new Trainer(name, pass, gender, age, weight, height, ID, specialty);
+        Trainer newTrainer = new Trainer(name, pass, gender, age, ID, specialty);
         addTrainer(newTrainer);
         trainersList.add(newTrainer);
     }
@@ -70,7 +64,7 @@ public class Trainer extends Person{
             CSVWriter writer = new CSVWriter(output);
 
             String[] userData = {newTrainer.getName(), newTrainer.getPassword(), newTrainer.getGender(), String.valueOf(newTrainer.getAge()),
-                    String.valueOf(newTrainer.getWeight()), String.valueOf(newTrainer.getHeight()), String.valueOf(newTrainer.getID()), newTrainer.getSpecialty()};
+                    String.valueOf(newTrainer.getID()), newTrainer.getSpecialty()};
             writer.writeNext(userData);
 
             writer.close();
@@ -99,7 +93,7 @@ public class Trainer extends Person{
 
             while((fields = reader.readNext()) != null){
                 trainersList.add(new Trainer(fields[0], fields[1], fields[2], Integer.parseInt(fields[3]),
-                        Double.parseDouble(fields[4]), Double.parseDouble(fields[5]), Integer.parseInt(fields[6]), fields[7]));
+                        Integer.parseInt(fields[4]), fields[5]));
             }
             reader.close();
         }catch(FileNotFoundException ex){
