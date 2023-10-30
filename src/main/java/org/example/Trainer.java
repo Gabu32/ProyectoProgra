@@ -18,7 +18,7 @@ public class Trainer extends Person{
 
     public Trainer(){
         try {
-            this.readData2();
+            this.readData();
         } catch (CsvValidationException e) {
             throw new RuntimeException(e);
         }
@@ -61,15 +61,14 @@ public class Trainer extends Person{
     public void printTrainers(){
         System.out.println();
         for(Trainer trainer : trainersList){
-            System.out.printf("Nombre: %s\nConstraseña: %s\nGenero: %s\nEdad: %s\nPeso: %.1f (kg)  Altura: %.1f (m)  IMC: %.2f\nEspecialidad: %s\n",
-                    trainer.getName(), trainer.getPassword(), trainer.getGender(), trainer.getAge(), trainer.getWeight(), trainer.getHeight(),
-                    trainer.getBmi(), trainer.getSpecialty());
+            trainer.print();
+            System.out.printf("Especialidad: %s\n", trainer.getSpecialty());
             //System.out.println("Entrenamientos: "+a.trainings);
             System.out.println();
         }
     }
 
-    public void readData2() throws CsvValidationException {
+    public void readData() throws CsvValidationException {
         File file = new File(this.ruta);
         try{
             FileReader inputfile = new FileReader(file);

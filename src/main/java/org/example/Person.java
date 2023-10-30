@@ -30,6 +30,12 @@ public class Person {
         if(height != 0) { this.bmi = weight / (height*height); }
     }
 
+    public void print(){
+        System.out.println();
+        System.out.printf("Nombre: %s\nConstraseña: %s\nGenero: %s\nEdad: %s\nPeso: %.1f (kg)  Altura: %.1f (m)  IMC: %.2f\n",
+                    getName(), getPassword(), getGender(), getAge(), getWeight(), getHeight(), getBmi());
+    }
+
     public void  setImc(int weight, double height){
         if((height != 0) || weight != 0){
             this.bmi = weight / (height*height);

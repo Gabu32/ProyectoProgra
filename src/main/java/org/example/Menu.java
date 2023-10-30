@@ -40,6 +40,7 @@ public class Menu {
             case 2:
                 trainerMenu();
                 trainerMenu(getUserChoice());
+                break;
 
             case 3:
                 excerciseMenu();

@@ -50,8 +50,7 @@ public class User extends Person{
     public void printUsers(){
         System.out.println();
         for(User user : usersList){
-            System.out.printf("Nombre: %s\nConstraseña: %s\nGenero: %s\nEdad: %s\nPeso: %.1f (kg)  Altura: %.1f (m)  IMC: %.2f\n",
-                    user.getName(), user.getPassword(), user.getGender(), user.getAge(), user.getWeight(), user.getHeight(), user.getBmi());
+            user.print();
             //System.out.println("Entrenamientos: "+a.trainings);
             System.out.println();
         }
