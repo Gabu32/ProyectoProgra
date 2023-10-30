@@ -3,12 +3,14 @@ package org.example;
 import java.util.Scanner;
 public class Menu {
     private User users;
+    private Trainer trainers;
     private Excersice excersices;
     private Training trainings;
     Scanner input = new Scanner(System.in);
 
     public Menu(){
         users = new User();
+        trainers = new Trainer();
         excersices = new Excersice();
         trainings = new Training();
     }
@@ -22,8 +24,9 @@ public class Menu {
 
     public void mainMenu(){
         System.out.println("1. Menu usuarios");
-        System.out.println("2. Menu ejercicios");
-        System.out.println("3. Menu entrenamientos");
+        System.out.println("2. Menu entrenadores");
+        System.out.println("3. Menu ejercicios");
+        System.out.println("4. Menu entrenamientos");
         System.out.println("0. Cerrar programa\n");
     }
 
@@ -35,11 +38,15 @@ public class Menu {
                 break;
 
             case 2:
+                trainerMenu();
+                trainerMenu(getUserChoice());
+
+            case 3:
                 excerciseMenu();
                 excerciseMenu(getUserChoice());
                 break;
 
-            case 3:
+            case 4:
                 trainingMenu();
                 trainingMenu(getUserChoice());
                 break;
@@ -68,6 +75,32 @@ public class Menu {
 
             case 2:
                 users.printUsers();
+                System.out.println("\n\n");
+                break;
+
+            case 0:
+                return;
+
+            default:
+                System.out.println("Opción no válida. Por favor, elija una opción válida.\n");
+        }
+    }
+
+    public void trainerMenu(){
+        System.out.println("1. Agregar entrenador");
+        System.out.println("2. Mostrar lista entrenadores");
+        System.out.println("0. Volver a menu principal\n");
+    }
+
+    public void trainerMenu(int choice){
+        switch(choice){
+            case 1:
+                trainers.addTrainer();
+                System.out.println("\n\n");
+                break;
+
+            case 2:
+                trainers.printTrainers();
                 System.out.println("\n\n");
                 break;
 
