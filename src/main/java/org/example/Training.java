@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 
 public class Training {
@@ -36,8 +37,25 @@ public class Training {
         String excersiceName = input.nextLine();
 
         Training newTraining = new Training(excersiceName);
-
+        addTraining(newTraining);
         trainingsList.add(newTraining);
+    }
+
+    public void addTraining(Training newTraining){
+        File file = new File(ruta);
+        try{
+            FileWriter output = new FileWriter(file, true);
+
+            CSVWriter writer = new CSVWriter(output);
+
+            String[] userData = {newTraining.getTrainingName()};
+            writer.writeNext(userData);
+
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void printTrainings(){

@@ -6,24 +6,27 @@ import java.io.*;
 import java.text.*;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 
 public class User extends Person{
     //private ArrayList<Training> trainings;
     private Scanner input = new Scanner(System.in);
     private ArrayList<User> usersList = new ArrayList<>();
-    public String ruta = "datos/datosUsuarios.csv";
+    private String ruta = "datos/datosUsuarios.csv";
+    private int lastID;
 
     // Constructores
     public User(){
         try {
             this.readData();
+            lastID = usersList.get(usersList.size()-1).getID();
         } catch (CsvValidationException e) {
             throw new RuntimeException(e);
         }
     }
-    public User(String name,String password,String gender,int age,double weight,double height){
-        super(name, password, gender, age, weight, height);
+    public User(String name,String password,String gender,int age,double weight,double height, int ID){
+        super(name, password, gender, age, weight, height, ID);
     }
 
     public void addUser(){
@@ -43,14 +46,36 @@ public class User extends Person{
         double height = input.nextDouble();
         input.nextLine();
 
-        User newUser = new User(name, pass, gender, age, weight, height);
+        int ID = lastID + 1;
+        lastID = ID;
 
+        User newUser = new User(name, pass, gender, age, weight, height, ID);
+
+        addUser(newUser);
         usersList.add(newUser);
+    }
+
+    public void addUser(User newUser){
+        File file = new File(ruta);
+        try{
+            FileWriter output = new FileWriter(file, true);
+
+            CSVWriter writer = new CSVWriter(output);
+
+            String[] userData = {newUser.getName(), newUser.getPassword(), newUser.getGender(), String.valueOf(newUser.getAge()),
+                    String.valueOf(newUser.getWeight()), String.valueOf(newUser.getHeight()), String.valueOf(newUser.getID()), };
+            writer.writeNext(userData);
+
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public void printUsers(){
         System.out.println();
         for(User user : usersList){
-            user.print();
+            user.printData();
             //System.out.println("Entrenamientos: "+a.trainings);
             System.out.println();
         }
@@ -64,10 +89,11 @@ public class User extends Person{
 
             String[] fields;
 
-            while((fields = reader.readNext()) != null){
-                usersList.add(new User(fields[0], fields[1], fields[2], Integer.parseInt(fields[3]), Double.parseDouble(fields[4]), Double.parseDouble(fields[5])));
+            while((fields = reader.readNext()) != null) {
+                usersList.add(new User(fields[0], fields[1], fields[2], Integer.parseInt(fields[3]), Double.parseDouble(fields[4]),
+                            Double.parseDouble(fields[5]), Integer.parseInt(fields[6])));
             }
-
+            reader.close();
         }catch(FileNotFoundException ex){
             ex.printStackTrace();
         }catch(IOException e){ e.printStackTrace(); }

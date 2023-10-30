@@ -9,6 +9,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
 public class Person {
+    private int ID;
     private String name;
     private String password;
     private String gender;
@@ -20,7 +21,8 @@ public class Person {
     public Person(){
 
     }
-    public Person(String name, String password, String gender, int age, double weight, double height){
+    public Person(String name, String password, String gender, int age, double weight, double height, int ID){
+        this.ID = ID;
         this.name = name;
         this.password = password;
         this.gender = gender;
@@ -30,13 +32,19 @@ public class Person {
         if(height != 0) { this.bmi = weight / (height*height); }
     }
 
-    public void print(){
+    public void printData(){
         System.out.println();
         System.out.printf("Nombre: %s\nConstraseña: %s\nGenero: %s\nEdad: %s\nPeso: %.1f (kg)  Altura: %.1f (m)  IMC: %.2f\n",
                     getName(), getPassword(), getGender(), getAge(), getWeight(), getHeight(), getBmi());
     }
 
-    public void  setImc(int weight, double height){
+    public int getID() {
+        return ID;
+    }
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+    public void  setBmi(int weight, double height){
         if((height != 0) || weight != 0){
             this.bmi = weight / (height*height);
         }
