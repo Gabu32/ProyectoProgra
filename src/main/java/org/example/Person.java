@@ -14,28 +14,22 @@ public class Person {
     private String password;
     private String gender;
     private int age;
-    private double weight; //kilogramos
-    private double height; //metros
-    private double bmi;
 
     public Person(){
 
     }
-    public Person(String name, String password, String gender, int age, double weight, double height, int ID){
+    public Person(String name, String password, String gender, int age, int ID){
         this.ID = ID;
         this.name = name;
         this.password = password;
         this.gender = gender;
         this.age = age;
-        this.weight = weight;
-        this.height = height;
-        if(height != 0) { this.bmi = weight / (height*height); }
     }
 
     public void printData(){
         System.out.println();
-        System.out.printf("Nombre: %s\nConstraseña: %s\nGenero: %s\nEdad: %s\nPeso: %.1f (kg)  Altura: %.1f (m)  IMC: %.2f\n",
-                    getName(), getPassword(), getGender(), getAge(), getWeight(), getHeight(), getBmi());
+        System.out.printf("ID %d\nNombre: %s\nConstraseña: %s\nGenero: %s\nEdad: %s\n",
+                    getID(), getName(), getPassword(), getGender(), getAge());
     }
 
     public int getID() {
@@ -43,14 +37,6 @@ public class Person {
     }
     public void setID(int ID) {
         this.ID = ID;
-    }
-    public void  setBmi(int weight, double height){
-        if((height != 0) || weight != 0){
-            this.bmi = weight / (height*height);
-        }
-    }
-    public double getBmi(){
-        return bmi;
     }
     public void setName(String name){
         this.name = name;
@@ -76,16 +62,5 @@ public class Person {
     public int getAge(){
         return age;
     }
-    public void setWeight(int weight){
-        this.weight = weight;
-    }
-    public double getWeight(){
-        return weight;
-    }
-    public void setHeight(double height){
-        this.height = height;
-    }
-    public double getHeight(){
-        return height;
-    }
+
 }

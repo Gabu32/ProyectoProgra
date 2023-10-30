@@ -9,7 +9,7 @@ public class Main {
 
         while(true){
             menu.mainMenu();
-            int choice = menu.getUserChoice();
+            int choice = menu.getUserChoice("Ingrese su opción: ");
             menu.mainMenu(choice);
         }
     }
