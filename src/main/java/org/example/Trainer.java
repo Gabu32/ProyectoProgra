@@ -80,9 +80,9 @@ public class Trainer extends Person{
             CSVWriter writer = new CSVWriter(output);
 
             for (Trainer trainer : trainersList) {
-                String[] userData = {trainer.getName(), trainer.getPassword(), trainer.getGender(), String.valueOf(trainer.getAge()),
+                String[] trainerData = {trainer.getName(), trainer.getPassword(), trainer.getGender(), String.valueOf(trainer.getAge()),
                         String.valueOf(trainer.getSpecialty())};
-                writer.writeNext(userData);
+                writer.writeNext(trainerData);
             }
 
             writer.close();

@@ -99,10 +99,9 @@ public class Excersice {
             CSVWriter writer = new CSVWriter(output);
 
             for (Excersice excersice : excercisesList) {
-                String[] userData = {excersice.getExcerciseName(), String.valueOf(excersice.getBurntCalories()), String.valueOf(excersice.getReps()),excersice.getDifficulty(),String.valueOf(excersice.getId())};
-                writer.writeNext(userData);
+                String[] excersiceData = {excersice.getExcerciseName(), String.valueOf(excersice.getBurntCalories()), String.valueOf(excersice.getReps()),excersice.getDifficulty(),String.valueOf(excersice.getId())};
+                writer.writeNext(excersiceData);
             }
-
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
