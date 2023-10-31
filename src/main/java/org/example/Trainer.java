@@ -73,6 +73,43 @@ public class Trainer extends Person{
             throw new RuntimeException(e);
         }
     }
+    public void rewriteCSV() {
+        File file = new File(ruta);
+        try {
+            FileWriter output = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(output);
+
+            for (Trainer trainer : trainersList) {
+                String[] userData = {trainer.getName(), trainer.getPassword(), trainer.getGender(), String.valueOf(trainer.getAge()),
+                        String.valueOf(trainer.getSpecialty()) };
+                writer.writeNext(userData);
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Trainer searchTrainer(int userID){
+        for(Trainer trainer : trainersList){
+            if(trainer.getID() == userID){
+                return trainer;
+            }
+        }
+        return null;
+    }
+    public void deleteTrainer(int userID){
+        Trainer trainerToDelete = searchTrainer(userID);
+
+        if(trainerToDelete != null){
+            trainersList.remove(trainerToDelete);
+            rewriteCSV();
+            System.out.println("Usuario eliminado correctamente\n");
+        }
+        else{
+            System.out.println("Usuario no encontrado\n");
+        }
+    }
     public void printTrainers(){
         System.out.println();
         for(Trainer trainer : trainersList){
