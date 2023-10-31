@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 
+import static java.lang.Integer.parseInt;
+
 public class Excersice {
+    private int id;
     private String excerciseName;
     private int burntCalories;
     private int reps;
@@ -23,11 +27,20 @@ public class Excersice {
             throw new RuntimeException(e);
         }
     }
-    public Excersice(String excerciseName, int cal, int reps, String difficulty){
+    public Excersice(String excerciseName, int cal, int reps, String difficulty,int id){
         this.excerciseName = excerciseName;
         this.burntCalories = cal;
         this.reps = reps;
         this.difficulty = difficulty;
+        this.id= id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setExcerciseName(String excerciseName){
@@ -56,6 +69,9 @@ public class Excersice {
     }
 
     public void addExcercise(){
+        System.out.print("Introduzca id del ejercicio: ");
+        int id= input.nextInt();
+        input.nextLine();
         System.out.print("Introduzca nombre ejercicio: ");
         String excerciseName = input.nextLine();
 
@@ -70,9 +86,47 @@ public class Excersice {
         System.out.print("Introduzca dificultad del ejercicio: ");
         String difficulty = input.nextLine();
 
-        Excersice newExcersice = new Excersice(excerciseName, burntCalories, reps, difficulty);
+        Excersice newExcersice = new Excersice(excerciseName, burntCalories, reps, difficulty,id);
 
         excercisesList.add(newExcersice);
+    }
+
+
+    public void rewriteCSV() {
+        File file = new File(ruta);
+        try {
+            FileWriter output = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(output);
+
+            for (Excersice excersice : excercisesList) {
+                String[] userData = {excersice.getExcerciseName(), String.valueOf(excersice.getBurntCalories()), String.valueOf(excersice.getReps()),excersice.getDifficulty(),String.valueOf(excersice.getId())};
+                writer.writeNext(userData);
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Excersice searchExcersice(int exID){
+        for(Excersice excersice : excercisesList){
+            if(excersice.getId() == exID){
+                return excersice;
+            }
+        }
+        return null;
+    }
+    public void deleteExcersice(int exID){
+        Excersice excersiceToDelete = searchExcersice(exID);
+
+        if(excersiceToDelete != null){
+            excercisesList.remove(excersiceToDelete);
+            rewriteCSV();
+            System.out.println("Usuario eliminado correctamente\n");
+        }
+        else{
+            System.out.println("Usuario no encontrado\n");
+        }
     }
     public void printExcercises(){
         for(Excersice excersice : excercisesList){
@@ -90,7 +144,7 @@ public class Excersice {
             String[] fields;
 
             while((fields = reader.readNext()) != null){
-                excercisesList.add(new Excersice(fields[0], Integer.parseInt(fields[1]), Integer.parseInt(fields[2]), fields[3]));
+                excercisesList.add(new Excersice(fields[0], parseInt(fields[1]), parseInt(fields[2]), fields[3],parseInt(fields[4])));
             }
 
         }catch(FileNotFoundException ex){

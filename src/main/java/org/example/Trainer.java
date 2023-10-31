@@ -81,7 +81,7 @@ public class Trainer extends Person{
 
             for (Trainer trainer : trainersList) {
                 String[] userData = {trainer.getName(), trainer.getPassword(), trainer.getGender(), String.valueOf(trainer.getAge()),
-                        String.valueOf(trainer.getSpecialty()) };
+                        String.valueOf(trainer.getSpecialty())};
                 writer.writeNext(userData);
             }
 
