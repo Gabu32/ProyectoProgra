@@ -178,8 +178,8 @@ public class User extends Person{
         }catch(IOException e){ e.printStackTrace(); }
     }
 
-    public void modifyUser(int userID){
-        User userToModify = searchUser(userID);
+    public void modifyUser(int ID){
+        User userToModify = searchUser(ID);
 
         if(userToModify == null){
             System.out.println("Usuario no encontrado\n");

@@ -143,8 +143,8 @@ public class Trainer extends Person{
         }catch(IOException e){ e.printStackTrace(); }
     }
 
-    public void modifyTrainer(int trainerID){
-        Trainer trainerToModify = searchTrainer(trainerID);
+    public void modifyTrainer(int ID){
+        Trainer trainerToModify = searchTrainer(ID);
 
         if(trainerToModify == null){
             System.out.println("Usuario no encontrado\n");
@@ -157,6 +157,7 @@ public class Trainer extends Person{
         System.out.println("3. Email");
         System.out.println("4. Género");
         System.out.println("5. Edad");
+        System.out.println("6. Especialidad");
 
         int choice = input.nextInt();
         input.nextLine();

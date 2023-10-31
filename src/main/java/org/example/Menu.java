@@ -5,14 +5,14 @@ import java.util.Scanner;
 public class Menu {
     private User users;
     private Trainer trainers;
-    private Excersice excersices;
+    private Excercise excersices;
     private Training trainings;
     Scanner input = new Scanner(System.in);
 
     public Menu(){
         users = new User();
         trainers = new Trainer();
-        excersices = new Excersice();
+        excersices = new Excercise();
         trainings = new Training();
 
         loginForm loginModule = new loginForm(null, users, trainers);
@@ -27,10 +27,10 @@ public class Menu {
                 System.out.print(mensaje);
                 choice = input.nextInt();
                 System.out.println("\n");
-                inputValid = true; // La entrada es válida, podemos salir del bucle
+                inputValid = true;
             } catch (InputMismatchException e) {
                 System.out.println("Entrada no válida. Por favor, ingrese un número válido.");
-                input.nextLine(); // Limpiamos el búfer del escáner para evitar un bucle infinito
+                input.nextLine();
             }
         }
         return choice;
@@ -132,8 +132,6 @@ public class Menu {
                 System.out.println("\n");
                 break;
 
-<<<<<<< Updated upstream
-=======
             case 3:
                 trainers.deleteTrainer(getUserChoice("Ingrese ID entrenador a eliminar: "));
                 System.out.println("\n");
@@ -144,7 +142,6 @@ public class Menu {
                 System.out.println("\n");
                 break;
 
->>>>>>> Stashed changes
             case 0:
                 return;
 
@@ -154,9 +151,10 @@ public class Menu {
     }
 
     public void excerciseMenu(){
-        System.out.println("1. Agregar ejercicio");
+        System.out.println("1. Agregar un ejercicio");
         System.out.println("2. Mostrar lista ejercicios");
-        System.out.println("3. Eliminar ejercicio");
+        System.out.println("3. Eliminar un ejercicio");
+        System.out.println("4. Modificar datos de un ejercicio");
         System.out.println("0. Volver al menu principal\n");
     }
 
@@ -172,6 +170,15 @@ public class Menu {
                 System.out.println("\n");
                 break;
 
+            case 3:
+                excersices.deleteExcercise(getUserChoice("Ingrese ID ejercicio a eliminar"));
+                System.out.println("\n");
+                break;
+
+            case 4:
+                excersices.modifyExcercise(getUserChoice("Ingrese ID ejercicio a modificar"));
+                break;
+
             case 0:
                 return;
 
@@ -181,8 +188,10 @@ public class Menu {
     }
 
     public void trainingMenu(){
-        System.out.println("1. Agregar entrenamiento");
-        System.out.println("2. Mostrar lista entrenamiento");
+        System.out.println("1. Agregar un entrenamiento");
+        System.out.println("2. Mostrar lista entrenamientos");
+        System.out.println("3. Eliminar un entrenamiento");
+        System.out.println("4. Modificar datos de un entrenamiento");
         System.out.println("0. Volver al menu principal\n");
     }
 
@@ -196,6 +205,14 @@ public class Menu {
             case 2:
                 trainings.printTrainings();
                 System.out.println("\n");
+                break;
+
+            case 3:
+                trainings.deleteTraining(getUserChoice("Ingrese ID entrenamiento a eliminar"));
+                System.out.println("\n");
+                break;
+
+            case 4:
                 break;
 
             case 0:

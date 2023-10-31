@@ -13,11 +13,7 @@ import static java.lang.Integer.parseInt;
 public class Training {
     private int ID;
     private String trainingName;
-<<<<<<< Updated upstream
-    private ArrayList<Excersice> excersices;
-=======
     //private ArrayList<Excercise> excercises;
->>>>>>> Stashed changes
     private ArrayList<Training> trainingsList = new ArrayList<>();
     private Scanner input = new Scanner(System.in);
     private String ruta = "datos/datosEntrenamientos.csv";

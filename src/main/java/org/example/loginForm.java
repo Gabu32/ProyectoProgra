@@ -33,10 +33,9 @@ public class loginForm extends JDialog{
             public void actionPerformed(ActionEvent e) {
                 String email = textField.getText();
                 String password = new String(passwordField.getPassword());
-                boolean ingresarComoEntrenador = ingresarComoEntrenadorCheckBox.isSelected();
+                boolean loginAsTrainer = ingresarComoEntrenadorCheckBox.isSelected();
 
-                if (ingresarComoEntrenador) {
-                    // Validar como entrenador
+                if (loginAsTrainer) {
                     boolean valid = getAuthenticatedTrainer(email, password);
                     if (valid) {
                         JOptionPane.showMessageDialog(loginPanel, "Inicio de sesión como entrenador exitoso.");
@@ -45,7 +44,6 @@ public class loginForm extends JDialog{
                         JOptionPane.showMessageDialog(loginPanel, "Inicio de sesión fallido como entrenador.");
                     }
                 } else {
-                    // Validar como usuario
                     boolean valid = getAuthenticatedUser(email, password);
                     if (valid) {
                         JOptionPane.showMessageDialog(loginPanel, "Inicio de sesión exitoso.");
