@@ -5,14 +5,14 @@ import java.util.Scanner;
 public class Menu {
     private User users;
     private Trainer trainers;
-    private Excersice excersices;
+    private Excercise excercises;
     private Training trainings;
     Scanner input = new Scanner(System.in);
 
     public Menu(){
         users = new User();
         trainers = new Trainer();
-        excersices = new Excersice();
+        excercises = new Excercise();
         trainings = new Training();
     }
 
@@ -95,6 +95,7 @@ public class Menu {
             case 3:
                 users.deleteUser(getUserChoice("Ingrese ID usuario a eliminar: "));
                 System.out.println("\n");
+                break;
 
             case 0:
                 return;
@@ -122,6 +123,11 @@ public class Menu {
                 System.out.println("\n");
                 break;
 
+            case 3:
+                trainers.deleteTrainer(getUserChoice("Ingrese ID entrenador a eliminar: "));
+                System.out.println("\n");
+                break;
+
             case 0:
                 return;
 
@@ -139,12 +145,17 @@ public class Menu {
     public void excerciseMenu(int choice){
         switch(choice){
             case 1:
-                excersices.addExcercise();
+                excercises.addExcercise();
                 System.out.println("\n");
                 break;
 
             case 2:
-                excersices.printExcercises();
+                excercises.printExcercises();
+                System.out.println("\n");
+                break;
+
+            case 3:
+                excercises.deleteExcercise(getUserChoice("Ingrese ID ejercicio a eliminar: "));
                 System.out.println("\n");
                 break;
 

@@ -10,7 +10,7 @@ import com.opencsv.exceptions.CsvValidationException;
 
 public class Training {
     private String trainingName;
-    private ArrayList<Excersice> excersices;
+    private ArrayList<Excercise> excercises;
     private ArrayList<Training> trainingsList = new ArrayList<>();
     private Scanner input = new Scanner(System.in);
     private String ruta = "datos/datosEntrenamientos.csv";

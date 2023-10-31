@@ -10,39 +10,39 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import static java.lang.Integer.parseInt;
 
-public class Excersice {
-    private int id;
+public class Excercise{
+    private int ID;
     private String excerciseName;
     private int burntCalories;
     private int reps;
     private String difficulty; //begginer, intermediate, expert
     private Scanner input = new Scanner(System.in);
-    private ArrayList<Excersice> excercisesList = new ArrayList<>();
+    private ArrayList<Excercise> excercisesList = new ArrayList<>();
     private String ruta = "datos/datosEjercicios.csv";
-
-    public Excersice(){
+    private int lastID;
+    public Excercise(){
         try {
             this.readData();
+            lastID = excercisesList.get(excercisesList.size()-1).getID();
         } catch (CsvValidationException e) {
             throw new RuntimeException(e);
         }
     }
-    public Excersice(String excerciseName, int cal, int reps, String difficulty,int id){
+
+    public Excercise(String excerciseName, int cal, int reps, String difficulty, int ID){
         this.excerciseName = excerciseName;
         this.burntCalories = cal;
         this.reps = reps;
         this.difficulty = difficulty;
-        this.id= id;
+        this.ID = ID;
     }
 
-    public int getId() {
-        return id;
+    public int getID() {
+        return ID;
     }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int id) {
+        this.ID = id;
     }
-
     public void setExcerciseName(String excerciseName){
         this.excerciseName = excerciseName;
     }
@@ -69,9 +69,6 @@ public class Excersice {
     }
 
     public void addExcercise(){
-        System.out.print("Introduzca id del ejercicio: ");
-        int id= input.nextInt();
-        input.nextLine();
         System.out.print("Introduzca nombre ejercicio: ");
         String excerciseName = input.nextLine();
 
@@ -86,11 +83,33 @@ public class Excersice {
         System.out.print("Introduzca dificultad del ejercicio: ");
         String difficulty = input.nextLine();
 
-        Excersice newExcersice = new Excersice(excerciseName, burntCalories, reps, difficulty,id);
+        int ID = lastID + 1;
+        lastID = ID;
 
+        Excercise newExcersice = new Excercise(excerciseName, burntCalories, reps, difficulty, ID);
+
+        addExcercise(newExcersice);
         excercisesList.add(newExcersice);
     }
 
+    public void addExcercise(Excercise newExcersice){
+        File file = new File(ruta);
+
+        try{
+            FileWriter output = new FileWriter(file, true);
+
+            CSVWriter writer = new CSVWriter(output);
+
+            String[] userData = {newExcersice.getExcerciseName(), String.valueOf(newExcersice.getBurntCalories()),
+                    String.valueOf(newExcersice.getReps()), newExcersice.getDifficulty(), String.valueOf(newExcersice.getID())};
+            writer.writeNext(userData);
+
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void rewriteCSV() {
         File file = new File(ruta);
@@ -98,26 +117,26 @@ public class Excersice {
             FileWriter output = new FileWriter(file);
             CSVWriter writer = new CSVWriter(output);
 
-            for (Excersice excersice : excercisesList) {
-                String[] userData = {excersice.getExcerciseName(), String.valueOf(excersice.getBurntCalories()), String.valueOf(excersice.getReps()),excersice.getDifficulty(),String.valueOf(excersice.getId())};
+            for (Excercise excersice : excercisesList) {
+                String[] userData = {excersice.getExcerciseName(), String.valueOf(excersice.getBurntCalories()),
+                        String.valueOf(excersice.getReps()), excersice.getDifficulty(), String.valueOf(excersice.getID())};
                 writer.writeNext(userData);
             }
-
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public Excersice searchExcersice(int exID){
-        for(Excersice excersice : excercisesList){
-            if(excersice.getId() == exID){
+    public Excercise searchExcercise(int exID){
+        for(Excercise excersice : excercisesList){
+            if(excersice.getID() == exID){
                 return excersice;
             }
         }
         return null;
     }
-    public void deleteExcersice(int exID){
-        Excersice excersiceToDelete = searchExcersice(exID);
+    public void deleteExcercise(int exID){
+        Excercise excersiceToDelete = searchExcercise(exID);
 
         if(excersiceToDelete != null){
             excercisesList.remove(excersiceToDelete);
@@ -129,7 +148,7 @@ public class Excersice {
         }
     }
     public void printExcercises(){
-        for(Excersice excersice : excercisesList){
+        for(Excercise excersice : excercisesList){
             System.out.printf("Nombre: %s\nRepeticiones: %d\nCalorias quemadas: %d\nDificultad: %s\n\n",
                     excersice.getExcerciseName(), excersice.getReps(), excersice.getBurntCalories(), excersice.getDifficulty());
         }
@@ -144,7 +163,7 @@ public class Excersice {
             String[] fields;
 
             while((fields = reader.readNext()) != null){
-                excercisesList.add(new Excersice(fields[0], parseInt(fields[1]), parseInt(fields[2]), fields[3],parseInt(fields[4])));
+                excercisesList.add(new Excercise(fields[0], parseInt(fields[1]), parseInt(fields[2]), fields[3], parseInt(fields[4])));
             }
 
         }catch(FileNotFoundException ex){
