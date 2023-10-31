@@ -14,6 +14,8 @@ public class Menu {
         trainers = new Trainer();
         excersices = new Excersice();
         trainings = new Training();
+
+        loginForm loginModule = new loginForm(null, users, trainers);
     }
 
     public int getUserChoice(String mensaje){
@@ -74,9 +76,10 @@ public class Menu {
     }
 
     public void userMenu(){
-        System.out.println("1. Agregar usuario");
+        System.out.println("1. Agregar un usuario");
         System.out.println("2. Mostrar lista usuarios");
         System.out.println("3. Eliminar un usuario");
+        System.out.println("4. Modificar datos de un usuario");
         System.out.println("0. Volver a menu principal\n");
     }
 
@@ -96,6 +99,11 @@ public class Menu {
                 users.deleteUser(getUserChoice("Ingrese ID usuario a eliminar: "));
                 System.out.println("\n");
 
+            case 4:
+                users.modifyUser(getUserChoice("Ingrese ID usuario a modificar: "));
+                System.out.println("\n");
+                break;
+
             case 0:
                 return;
 
@@ -105,8 +113,10 @@ public class Menu {
     }
 
     public void trainerMenu(){
-        System.out.println("1. Agregar entrenador");
+        System.out.println("1. Agregar un entrenador");
         System.out.println("2. Mostrar lista entrenadores");
+        System.out.println("3. Eliminar un entrenador");
+        System.out.println("4. Modificar datos de un entrenador");
         System.out.println("0. Volver a menu principal\n");
     }
 
@@ -122,6 +132,19 @@ public class Menu {
                 System.out.println("\n");
                 break;
 
+<<<<<<< Updated upstream
+=======
+            case 3:
+                trainers.deleteTrainer(getUserChoice("Ingrese ID entrenador a eliminar: "));
+                System.out.println("\n");
+                break;
+
+            case 4:
+                trainers.modifyTrainer(getUserChoice("Ingrese ID entrenador a modificar"));
+                System.out.println("\n");
+                break;
+
+>>>>>>> Stashed changes
             case 0:
                 return;
 
@@ -133,6 +156,7 @@ public class Menu {
     public void excerciseMenu(){
         System.out.println("1. Agregar ejercicio");
         System.out.println("2. Mostrar lista ejercicios");
+        System.out.println("3. Eliminar ejercicio");
         System.out.println("0. Volver al menu principal\n");
     }
 

@@ -15,7 +15,7 @@ public class Excersice {
     private String excerciseName;
     private int burntCalories;
     private int reps;
-    private String difficulty; //begginer, intermediate, expert
+    private String difficulty; //beginner, intermediate, expert
     private Scanner input = new Scanner(System.in);
     private ArrayList<Excersice> excercisesList = new ArrayList<>();
     private String ruta = "datos/datosEjercicios.csv";
@@ -91,16 +91,44 @@ public class Excersice {
         excercisesList.add(newExcersice);
     }
 
+<<<<<<< Updated upstream:src/main/java/org/example/Excersice.java
 
+=======
+    public void addExcercise(Excercise newExcersice){
+        File file = new File(ruta);
+
+        try{
+            FileWriter output = new FileWriter(file, true);
+
+            CSVWriter writer = new CSVWriter(output);
+
+            String[] excerciseData = {newExcersice.getExcerciseName(), String.valueOf(newExcersice.getBurntCalories()),
+                    String.valueOf(newExcersice.getReps()), newExcersice.getDifficulty(), String.valueOf(newExcersice.getID())};
+            writer.writeNext(excerciseData);
+
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+>>>>>>> Stashed changes:src/main/java/org/example/Excercise.java
     public void rewriteCSV() {
         File file = new File(ruta);
         try {
             FileWriter output = new FileWriter(file);
             CSVWriter writer = new CSVWriter(output);
 
+<<<<<<< Updated upstream:src/main/java/org/example/Excersice.java
             for (Excersice excersice : excercisesList) {
                 String[] userData = {excersice.getExcerciseName(), String.valueOf(excersice.getBurntCalories()), String.valueOf(excersice.getReps()),excersice.getDifficulty(),String.valueOf(excersice.getId())};
                 writer.writeNext(userData);
+=======
+            for (Excercise excersice : excercisesList) {
+                String[] excerciseData = {excersice.getExcerciseName(), String.valueOf(excersice.getBurntCalories()),
+                        String.valueOf(excersice.getReps()), excersice.getDifficulty(), String.valueOf(excersice.getID())};
+                writer.writeNext(excerciseData);
+>>>>>>> Stashed changes:src/main/java/org/example/Excercise.java
             }
 
             writer.close();
@@ -108,30 +136,47 @@ public class Excersice {
             throw new RuntimeException(e);
         }
     }
+<<<<<<< Updated upstream:src/main/java/org/example/Excersice.java
     public Excersice searchExcersice(int exID){
         for(Excersice excersice : excercisesList){
             if(excersice.getId() == exID){
+=======
+    public Excercise searchExcercise(int ID){
+        for(Excercise excersice : excercisesList){
+            if(excersice.getID() == ID){
+>>>>>>> Stashed changes:src/main/java/org/example/Excercise.java
                 return excersice;
             }
         }
         return null;
     }
+<<<<<<< Updated upstream:src/main/java/org/example/Excersice.java
     public void deleteExcersice(int exID){
         Excersice excersiceToDelete = searchExcersice(exID);
+=======
+    public void deleteExcercise(int ID){
+        Excercise excersiceToDelete = searchExcercise(ID);
+>>>>>>> Stashed changes:src/main/java/org/example/Excercise.java
 
         if(excersiceToDelete != null){
             excercisesList.remove(excersiceToDelete);
             rewriteCSV();
-            System.out.println("Usuario eliminado correctamente\n");
+            System.out.println("Ejercicio eliminado correctamente\n");
         }
         else{
-            System.out.println("Usuario no encontrado\n");
+            System.out.println("Ejercicio no encontrado\n");
         }
     }
     public void printExcercises(){
+<<<<<<< Updated upstream:src/main/java/org/example/Excersice.java
         for(Excersice excersice : excercisesList){
             System.out.printf("Nombre: %s\nRepeticiones: %d\nCalorias quemadas: %d\nDificultad: %s\n\n",
                     excersice.getExcerciseName(), excersice.getReps(), excersice.getBurntCalories(), excersice.getDifficulty());
+=======
+        for(Excercise excersice : excercisesList){
+            System.out.printf("ID: %d\nNombre: %s\nRepeticiones: %d\nCalorias quemadas: %d\nDificultad: %s\n\n",
+                    excersice.getID(), excersice.getExcerciseName(), excersice.getReps(), excersice.getBurntCalories(), excersice.getDifficulty());
+>>>>>>> Stashed changes:src/main/java/org/example/Excercise.java
         }
     }
 

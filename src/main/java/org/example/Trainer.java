@@ -23,9 +23,9 @@ public class Trainer extends Person{
             throw new RuntimeException(e);
         }
     }
-    public Trainer(String name, String password, String gender, int age, int ID, String specialty) {
-        super(name, password, gender, age, ID);
-        this.specialty=specialty;
+    public Trainer(String name, String password, String email, String gender, int age, int ID, String specialty) {
+        super(name, password, email, gender, age, ID);
+        this.specialty = specialty;
     }
 
     public String getSpecialty() {
@@ -34,12 +34,17 @@ public class Trainer extends Person{
     public void setSpecialty(String specialty) {
         this.specialty = specialty;
     }
+    public ArrayList<Trainer> getTrainersList() {
+        return trainersList;
+    }
 
     public void addTrainer(){
         System.out.print("Introduzca su nombre: ");
         String name = input.nextLine();
         System.out.print("Introduzca su contraseña: ");
         String pass = input.nextLine();
+        System.out.print("Introduzca su email: ");
+        String email = input.nextLine();
         System.out.print("Introduzca su genero: ");
         String gender = input.nextLine();
         System.out.print("Introduzca su edad: ");
@@ -51,7 +56,7 @@ public class Trainer extends Person{
         int ID = lastID + 1;
         lastID = ID;
 
-        Trainer newTrainer = new Trainer(name, pass, gender, age, ID, specialty);
+        Trainer newTrainer = new Trainer(name, pass, email, gender, age, ID, specialty);
         addTrainer(newTrainer);
         trainersList.add(newTrainer);
     }
@@ -63,9 +68,9 @@ public class Trainer extends Person{
 
             CSVWriter writer = new CSVWriter(output);
 
-            String[] userData = {newTrainer.getName(), newTrainer.getPassword(), newTrainer.getGender(), String.valueOf(newTrainer.getAge()),
-                    String.valueOf(newTrainer.getID()), newTrainer.getSpecialty()};
-            writer.writeNext(userData);
+            String[] trainerData = {newTrainer.getName(), newTrainer.getPassword(), newTrainer.getEmail(), newTrainer.getGender(),
+                    String.valueOf(newTrainer.getAge()), String.valueOf(newTrainer.getID()), newTrainer.getSpecialty()};
+            writer.writeNext(trainerData);
 
             writer.close();
 
@@ -80,9 +85,9 @@ public class Trainer extends Person{
             CSVWriter writer = new CSVWriter(output);
 
             for (Trainer trainer : trainersList) {
-                String[] userData = {trainer.getName(), trainer.getPassword(), trainer.getGender(), String.valueOf(trainer.getAge()),
-                        String.valueOf(trainer.getSpecialty())};
-                writer.writeNext(userData);
+                String[] trainerData = {trainer.getName(), trainer.getPassword(), trainer.getEmail(), trainer.getGender(),
+                        String.valueOf(trainer.getAge()), String.valueOf(trainer.getID()), trainer.getSpecialty()};
+                writer.writeNext(trainerData);
             }
 
             writer.close();
@@ -90,24 +95,24 @@ public class Trainer extends Person{
             throw new RuntimeException(e);
         }
     }
-    public Trainer searchTrainer(int userID){
+    public Trainer searchTrainer(int ID){
         for(Trainer trainer : trainersList){
-            if(trainer.getID() == userID){
+            if(trainer.getID() == ID){
                 return trainer;
             }
         }
         return null;
     }
-    public void deleteTrainer(int userID){
-        Trainer trainerToDelete = searchTrainer(userID);
+    public void deleteTrainer(int ID){
+        Trainer trainerToDelete = searchTrainer(ID);
 
         if(trainerToDelete != null){
             trainersList.remove(trainerToDelete);
             rewriteCSV();
-            System.out.println("Usuario eliminado correctamente\n");
+            System.out.println("Entrenador eliminado correctamente\n");
         }
         else{
-            System.out.println("Usuario no encontrado\n");
+            System.out.println("Entrenador no encontrado\n");
         }
     }
     public void printTrainers(){
@@ -129,13 +134,64 @@ public class Trainer extends Person{
             String[] fields;
 
             while((fields = reader.readNext()) != null){
-                trainersList.add(new Trainer(fields[0], fields[1], fields[2], Integer.parseInt(fields[3]),
-                        Integer.parseInt(fields[4]), fields[5]));
+                trainersList.add(new Trainer(fields[0], fields[1], fields[2], fields[3], Integer.parseInt(fields[4]),
+                        Integer.parseInt(fields[5]), fields[6]));
             }
             reader.close();
         }catch(FileNotFoundException ex){
             ex.printStackTrace();
         }catch(IOException e){ e.printStackTrace(); }
+    }
+
+    public void modifyTrainer(int trainerID){
+        Trainer trainerToModify = searchTrainer(trainerID);
+
+        if(trainerToModify == null){
+            System.out.println("Usuario no encontrado\n");
+            return;
+        }
+
+        System.out.println("¿Qué dato desea modificar?");
+        System.out.println("1. Nombre");
+        System.out.println("2. Contraseña");
+        System.out.println("3. Email");
+        System.out.println("4. Género");
+        System.out.println("5. Edad");
+
+        int choice = input.nextInt();
+        input.nextLine();
+
+        switch(choice){
+            case 1:
+                System.out.print("Nuevo nombre: ");
+                trainerToModify.setName(input.nextLine());
+                break;
+            case 2:
+                System.out.print("Nueva contraseña: ");
+                trainerToModify.setPassword(input.nextLine());
+                break;
+            case 3:
+                System.out.println("Nuevo email: ");
+                trainerToModify.setEmail(input.nextLine());
+                break;
+            case 4:
+                System.out.print("Nuevo género: ");
+                trainerToModify.setGender(input.nextLine());
+                break;
+            case 5:
+                System.out.print("Nueva edad: ");
+                trainerToModify.setAge(input.nextInt());
+                input.nextLine();
+                break;
+            case 6:
+                System.out.print("Nueva especialidad: ");
+                trainerToModify.setSpecialty(input.nextLine());
+                break;
+            default:
+                System.out.println("Opción no válida.");
+                return;
+        }
+        rewriteCSV();
     }
 
 }

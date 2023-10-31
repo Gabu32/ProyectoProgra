@@ -1,3 +1,4 @@
+//TODO: Crear funcion para validar datos, retornara siempre String y se cambiara el tipo de dato segun se requiera
 package org.example;
 
 import java.util.Scanner;
@@ -28,8 +29,8 @@ public class User extends Person{
             throw new RuntimeException(e);
         }
     }
-    public User(String name,String password,String gender,int age,double weight,double height, int ID){
-        super(name, password, gender, age, ID);
+    public User(String name, String password, String email, String gender, int age, double weight, double height, int ID){
+        super(name, password, email, gender, age, ID);
         this.weight=weight;
         this.height=height;
         if(height != 0) { this.bmi = weight / (height*height); }
@@ -53,6 +54,9 @@ public class User extends Person{
     public void setBmi(double bmi) {
         this.bmi = bmi;
     }
+    public ArrayList<User> getUsersList() {
+        return usersList;
+    }
     public Training getCurrentTraining() {
         return currentTraining;
     }
@@ -65,6 +69,8 @@ public class User extends Person{
         String name = input.nextLine();
         System.out.print("Introduzca su contraseña: ");
         String pass = input.nextLine();
+        System.out.print("Introduzca su email: ");
+        String email = input.nextLine();
         System.out.print("Introduzca su genero: ");
         String gender = input.nextLine();
         System.out.print("Introduzca su edad: ");
@@ -80,7 +86,7 @@ public class User extends Person{
         int ID = lastID + 1;
         lastID = ID;
 
-        User newUser = new User(name, pass, gender, age, weight, height, ID);
+        User newUser = new User(name, pass, email, gender, age, weight, height, ID);
 
         addUser(newUser);
         usersList.add(newUser);
@@ -93,7 +99,7 @@ public class User extends Person{
 
             CSVWriter writer = new CSVWriter(output);
 
-            String[] userData = {newUser.getName(), newUser.getPassword(), newUser.getGender(), String.valueOf(newUser.getAge()),
+            String[] userData = {newUser.getName(), newUser.getPassword(), newUser.getEmail(), newUser.getGender(), String.valueOf(newUser.getAge()),
                     String.valueOf(newUser.getWeight()), String.valueOf(newUser.getHeight()), String.valueOf(newUser.getID())};
             writer.writeNext(userData);
 
@@ -104,16 +110,16 @@ public class User extends Person{
         }
     }
 
-    public User searchUser(int userID){
+    public User searchUser(int ID){
         for(User user : usersList){
-            if(user.getID() == userID){
+            if(user.getID() == ID){
                 return user;
             }
         }
         return null;
     }
-    public void deleteUser(int userID){
-        User userToDelete = searchUser(userID);
+    public void deleteUser(int ID){
+        User userToDelete = searchUser(ID);
 
         if(userToDelete != null){
             usersList.remove(userToDelete);
@@ -133,7 +139,7 @@ public class User extends Person{
             CSVWriter writer = new CSVWriter(output);
 
             for (User user : usersList) {
-                String[] userData = {user.getName(), user.getPassword(), user.getGender(), String.valueOf(user.getAge()),
+                String[] userData = {user.getName(), user.getPassword(), user.getEmail(), user.getGender(), String.valueOf(user.getAge()),
                         String.valueOf(user.getWeight()), String.valueOf(user.getHeight()), String.valueOf(user.getID()) };
                 writer.writeNext(userData);
             }
@@ -163,8 +169,8 @@ public class User extends Person{
             String[] fields;
 
             while((fields = reader.readNext()) != null) {
-                usersList.add(new User(fields[0], fields[1], fields[2], Integer.parseInt(fields[3]), Double.parseDouble(fields[4]),
-                            Double.parseDouble(fields[5]), Integer.parseInt(fields[6])));
+                usersList.add(new User(fields[0], fields[1], fields[2], fields[3], Integer.parseInt(fields[4]), Double.parseDouble(fields[5]),
+                            Double.parseDouble(fields[6]), Integer.parseInt(fields[7])));
             }
             reader.close();
         }catch(FileNotFoundException ex){
@@ -172,17 +178,62 @@ public class User extends Person{
         }catch(IOException e){ e.printStackTrace(); }
     }
 
-    //Metodos
+    public void modifyUser(int userID){
+        User userToModify = searchUser(userID);
 
-    /*
-    public void chooseTraining(){
+        if(userToModify == null){
+            System.out.println("Usuario no encontrado\n");
+            return;
+        }
 
+        System.out.println("¿Qué dato desea modificar?");
+        System.out.println("1. Nombre");
+        System.out.println("2. Contraseña");
+        System.out.println("3. Email");
+        System.out.println("4. Género");
+        System.out.println("5. Edad");
+        System.out.println("6. Peso");
+        System.out.println("7. Altura");
+
+        int choice = input.nextInt();
+        input.nextLine();
+
+        switch(choice){
+            case 1:
+                System.out.print("Nuevo nombre: ");
+                userToModify.setName(input.nextLine());
+                break;
+            case 2:
+                System.out.print("Nueva contraseña: ");
+                userToModify.setPassword(input.nextLine());
+                break;
+            case 3:
+                System.out.println("Nuevo email: ");
+                userToModify.setEmail(input.nextLine());
+                break;
+            case 4:
+                System.out.print("Nuevo género: ");
+                userToModify.setGender(input.nextLine());
+                break;
+            case 5:
+                System.out.print("Nueva edad: ");
+                userToModify.setAge(input.nextInt());
+                input.nextLine();
+                break;
+            case 6:
+                System.out.print("Nuevo peso (en kilogramos): ");
+                userToModify.setWeight(input.nextDouble());
+                input.nextLine();
+                break;
+            case 7:
+                System.out.print("Nueva altura (en metros): ");
+                userToModify.setHeight(input.nextDouble());
+                input.nextLine();
+                break;
+            default:
+                System.out.println("Opción no válida.");
+                return;
+        }
+        rewriteCSV();
     }
-    public void changeTraining(){
-
-    }
-    public void showTraining(){
-
-    }
-    */
 }
