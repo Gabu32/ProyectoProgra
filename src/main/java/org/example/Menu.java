@@ -98,6 +98,7 @@ public class Menu {
             case 3:
                 users.deleteUser(getUserChoice("Ingrese ID usuario a eliminar: "));
                 System.out.println("\n");
+                break;
 
             case 4:
                 users.modifyUser(getUserChoice("Ingrese ID usuario a modificar: "));
@@ -138,7 +139,7 @@ public class Menu {
                 break;
 
             case 4:
-                trainers.modifyTrainer(getUserChoice("Ingrese ID entrenador a modificar"));
+                trainers.modifyTrainer(getUserChoice("Ingrese ID entrenador a modificar: "));
                 System.out.println("\n");
                 break;
 
@@ -171,12 +172,13 @@ public class Menu {
                 break;
 
             case 3:
-                excersices.deleteExcercise(getUserChoice("Ingrese ID ejercicio a eliminar"));
+                excersices.deleteExcercise(getUserChoice("Ingrese ID ejercicio a eliminar: "));
                 System.out.println("\n");
                 break;
 
             case 4:
-                excersices.modifyExcercise(getUserChoice("Ingrese ID ejercicio a modificar"));
+                excersices.modifyExcercise(getUserChoice("Ingrese ID ejercicio a modificar: "));
+                System.out.println("\n");
                 break;
 
             case 0:
@@ -208,11 +210,13 @@ public class Menu {
                 break;
 
             case 3:
-                trainings.deleteTraining(getUserChoice("Ingrese ID entrenamiento a eliminar"));
+                trainings.deleteTraining(getUserChoice("Ingrese ID entrenamiento a eliminar: "));
                 System.out.println("\n");
                 break;
 
             case 4:
+                trainings.modifyTraining(getUserChoice("Ingrese ID entrenamiento a modificar: "));
+                System.out.println("\n");
                 break;
 
             case 0:

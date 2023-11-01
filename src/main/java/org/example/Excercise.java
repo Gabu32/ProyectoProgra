@@ -24,6 +24,7 @@ public class Excercise{
     public Excercise(){
         try {
             this.readData();
+            lastID = excercisesList.get(excercisesList.size()-1).getID();
         } catch (CsvValidationException e) {
             throw new RuntimeException(e);
         }

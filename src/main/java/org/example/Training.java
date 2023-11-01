@@ -133,4 +133,30 @@ public class Training {
             System.out.println(ex);
         }catch(IOException e){ e.printStackTrace(); }
     }
+
+    public void modifyTraining(int ID){
+        Training trainingToModify = searchTraining(ID);
+
+        if(trainingToModify == null){
+            System.out.println("Ejercicio no encontrado");
+            return;
+        }
+
+        System.out.println("¿Qué dato desea modificar?");
+        System.out.println("1. Nombre");
+
+        int choice = input.nextInt();
+        input.nextLine();
+
+        switch(choice) {
+            case 1:
+                System.out.print("Nuevo nombre: ");
+                trainingToModify.setTrainingName(input.nextLine());
+                break;
+            default:
+                System.out.println("Opción no válida.");
+                return;
+        }
+        rewriteCSV();
+    }
 }
