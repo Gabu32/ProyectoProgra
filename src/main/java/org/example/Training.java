@@ -138,7 +138,7 @@ public class Training {
         Training trainingToModify = searchTraining(ID);
 
         if(trainingToModify == null){
-            System.out.println("Ejercicio no encontrado");
+            System.out.println("Entrenamiento no encontrado");
             return;
         }
 

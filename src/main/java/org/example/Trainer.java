@@ -12,7 +12,7 @@ public class Trainer extends Person{
     private String specialty;
     private Scanner input = new Scanner(System.in);
     private ArrayList<Trainer> trainersList = new ArrayList<>();
-    private String ruta = "datos/datosEntrenadores.csv";
+    private String path = "datos/datosEntrenadores.csv";
     private int lastID;
 
     public Trainer(){
@@ -62,7 +62,7 @@ public class Trainer extends Person{
     }
 
     public void addTrainer(Trainer newTrainer){
-        File file = new File(ruta);
+        File file = new File(path);
         try{
             FileWriter output = new FileWriter(file, true);
 
@@ -78,23 +78,7 @@ public class Trainer extends Person{
             throw new RuntimeException(e);
         }
     }
-    public void rewriteCSV() {
-        File file = new File(ruta);
-        try {
-            FileWriter output = new FileWriter(file);
-            CSVWriter writer = new CSVWriter(output);
 
-            for (Trainer trainer : trainersList) {
-                String[] trainerData = {trainer.getName(), trainer.getPassword(), trainer.getEmail(), trainer.getGender(),
-                        String.valueOf(trainer.getAge()), String.valueOf(trainer.getID()), trainer.getSpecialty()};
-                writer.writeNext(trainerData);
-            }
-
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
     public Trainer searchTrainer(int ID){
         for(Trainer trainer : trainersList){
             if(trainer.getID() == ID){
@@ -103,12 +87,14 @@ public class Trainer extends Person{
         }
         return null;
     }
-    public void deleteTrainer(int ID){
+    public void delete(int ID){
         Trainer trainerToDelete = searchTrainer(ID);
 
         if(trainerToDelete != null){
             trainersList.remove(trainerToDelete);
-            rewriteCSV();
+            ArrayList<Person> trainers = new ArrayList<>(trainersList);
+            rewriteCSV(trainers, path);
+
             System.out.println("Entrenador eliminado correctamente\n");
         }
         else{
@@ -126,7 +112,7 @@ public class Trainer extends Person{
     }
 
     public void readData() throws CsvValidationException {
-        File file = new File(this.ruta);
+        File file = new File(this.path);
         try{
             FileReader inputfile = new FileReader(file);
             CSVReader reader = new CSVReader(inputfile);
@@ -143,7 +129,7 @@ public class Trainer extends Person{
         }catch(IOException e){ e.printStackTrace(); }
     }
 
-    public void modifyTrainer(int ID){
+    public void modifyData(int ID){
         Trainer trainerToModify = searchTrainer(ID);
 
         if(trainerToModify == null){
@@ -192,7 +178,12 @@ public class Trainer extends Person{
                 System.out.println("Opción no válida.");
                 return;
         }
-        rewriteCSV();
+        ArrayList<Person> trainers = new ArrayList<>(trainersList);
+        rewriteCSV(trainers, path);
     }
-
+    @Override
+    public String[] getCSVData() {
+        return new String[] {getName(), getPassword(), getEmail(), getGender(),
+                String.valueOf(getAge()), String.valueOf(getID()), getSpecialty()};
+    }
 }

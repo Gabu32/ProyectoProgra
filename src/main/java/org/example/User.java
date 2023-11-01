@@ -13,7 +13,7 @@ import com.opencsv.exceptions.CsvValidationException;
 public class User extends Person{
     private Scanner input = new Scanner(System.in);
     private ArrayList<User> usersList = new ArrayList<>();
-    private String ruta = "datos/datosUsuarios.csv";
+    private String path = "datos/datosUsuarios.csv";
     private int lastID;
     private double weight; //kilogramos
     private double height; //metros
@@ -93,7 +93,7 @@ public class User extends Person{
     }
 
     public void addUser(User newUser){
-        File file = new File(ruta);
+        File file = new File(path);
         try{
             FileWriter output = new FileWriter(file, true);
 
@@ -118,35 +118,18 @@ public class User extends Person{
         }
         return null;
     }
-    public void deleteUser(int ID){
+    public void delete(int ID){
         User userToDelete = searchUser(ID);
 
         if(userToDelete != null){
             usersList.remove(userToDelete);
-            rewriteCSV();
+            ArrayList<Person> users = new ArrayList<>(usersList);
+            rewriteCSV(users, path);
 
             System.out.println("Usuario eliminado correctamente\n");
         }
         else{
             System.out.println("Usuario no encontrado\n");
-        }
-    }
-
-    public void rewriteCSV() {
-        File file = new File(ruta);
-        try {
-            FileWriter output = new FileWriter(file);
-            CSVWriter writer = new CSVWriter(output);
-
-            for (User user : usersList) {
-                String[] userData = {user.getName(), user.getPassword(), user.getEmail(), user.getGender(), String.valueOf(user.getAge()),
-                        String.valueOf(user.getWeight()), String.valueOf(user.getHeight()), String.valueOf(user.getID()) };
-                writer.writeNext(userData);
-            }
-
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -160,25 +143,25 @@ public class User extends Person{
         }
     }
 
-    public void readData() throws CsvValidationException{
-        File file = new File(this.ruta);
-        try{
-            FileReader inputfile = new FileReader(file);
-            CSVReader reader = new CSVReader(inputfile);
+        public void readData() throws CsvValidationException{
+            File file = new File(this.path);
+            try{
+                FileReader inputfile = new FileReader(file);
+                CSVReader reader = new CSVReader(inputfile);
 
-            String[] fields;
+                String[] fields;
 
-            while((fields = reader.readNext()) != null) {
-                usersList.add(new User(fields[0], fields[1], fields[2], fields[3], Integer.parseInt(fields[4]), Double.parseDouble(fields[5]),
-                            Double.parseDouble(fields[6]), Integer.parseInt(fields[7])));
-            }
-            reader.close();
-        }catch(FileNotFoundException ex){
-            ex.printStackTrace();
-        }catch(IOException e){ e.printStackTrace(); }
-    }
+                while((fields = reader.readNext()) != null) {
+                    usersList.add(new User(fields[0], fields[1], fields[2], fields[3], Integer.parseInt(fields[4]), Double.parseDouble(fields[5]),
+                                Double.parseDouble(fields[6]), Integer.parseInt(fields[7])));
+                }
+                reader.close();
+            }catch(FileNotFoundException ex){
+                ex.printStackTrace();
+            }catch(IOException e){ e.printStackTrace(); }
+        }
 
-    public void modifyUser(int ID){
+    public void modifyData(int ID){
         User userToModify = searchUser(ID);
 
         if(userToModify == null){
@@ -223,17 +206,26 @@ public class User extends Person{
             case 6:
                 System.out.print("Nuevo peso (en kilogramos): ");
                 userToModify.setWeight(input.nextDouble());
+                if(this.height != 0) { this.bmi = this.weight / (this.height*this.height); }
                 input.nextLine();
                 break;
             case 7:
                 System.out.print("Nueva altura (en metros): ");
                 userToModify.setHeight(input.nextDouble());
+                if(this.height != 0) { this.bmi = this.weight / (this.height*this.height); }
                 input.nextLine();
                 break;
             default:
                 System.out.println("Opción no válida.");
                 return;
         }
-        rewriteCSV();
+        ArrayList<Person> users = new ArrayList<>(usersList);
+        rewriteCSV(users, path);
     }
+    @Override
+    public String[] getCSVData() {
+        return new String[] {getName(), getPassword(), getEmail(), getGender(),
+                String.valueOf(getAge()), String.valueOf(getWeight()), String.valueOf(getHeight()), String.valueOf(getID())};
+    }
+
 }

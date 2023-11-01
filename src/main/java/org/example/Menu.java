@@ -96,12 +96,12 @@ public class Menu {
                 break;
 
             case 3:
-                users.deleteUser(getUserChoice("Ingrese ID usuario a eliminar: "));
+                users.delete(getUserChoice("Ingrese ID usuario a eliminar: "));
                 System.out.println("\n");
                 break;
 
             case 4:
-                users.modifyUser(getUserChoice("Ingrese ID usuario a modificar: "));
+                users.modifyData(getUserChoice("Ingrese ID usuario a modificar: "));
                 System.out.println("\n");
                 break;
 
@@ -134,12 +134,12 @@ public class Menu {
                 break;
 
             case 3:
-                trainers.deleteTrainer(getUserChoice("Ingrese ID entrenador a eliminar: "));
+                trainers.delete(getUserChoice("Ingrese ID entrenador a eliminar: "));
                 System.out.println("\n");
                 break;
 
             case 4:
-                trainers.modifyTrainer(getUserChoice("Ingrese ID entrenador a modificar: "));
+                trainers.modifyData(getUserChoice("Ingrese ID entrenador a modificar: "));
                 System.out.println("\n");
                 break;
 

@@ -1,11 +1,13 @@
 package org.example;
 
+import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.*;
 import java.text.*;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 
 public abstract class Person {
@@ -17,7 +19,6 @@ public abstract class Person {
     private int age;
 
     public Person(){
-
     }
     public Person(String name, String password, String email, String gender, int age, int ID){
         this.ID = ID;
@@ -71,4 +72,24 @@ public abstract class Person {
         return age;
     }
 
+    public abstract String[] getCSVData();
+    public abstract void modifyData(int ID);
+    public abstract void readData() throws CsvValidationException;
+    public abstract void delete(int ID);
+    public void rewriteCSV(ArrayList<Person> people, String path) {
+        File file = new File(path);
+        try {
+            FileWriter output = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(output);
+
+            for (Person person : people) {
+                String[] userData = person.getCSVData();
+                writer.writeNext(userData);
+            }
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
